@@ -21,29 +21,14 @@ server <- function(input, output, session) {
     )
   })
   
-  # ---- Select correct raster ----
-  selected_raster <- reactive({
-    
+  # Select Raster
+  selected_key <- reactive({
     req(input$species, input$region, input$year)
-    
-    key <- paste0(input$species, "_", input$region, "_", input$year)
-    print(key)
-    
-    validate(need(key %in% names(rasters), "Raster not found"))
-    
-    r <- rasters[[key]]
-    
-    # ensure correct CRS for leaflet
-    if (!terra::is.lonlat(r)) {
-      r <- terra::project(r, "EPSG:4326")
-    }
-    
-    # use first band
-    if (terra::nlyr(r) > 1) {
-      r <- r[[1]]
-    }
-    
-    r
+    paste0(input$species, "_", input$region, "_", input$year)
+  })
+  
+  selected_raster <- reactive({
+    get_raster(selected_key())
   })
   
   # ---- Map ----
@@ -71,7 +56,8 @@ server <- function(input, output, session) {
       addRasterImage(
         r,
         colors = pal,
-        opacity = 0.7
+        opacity = 0.7, 
+        project = TRUE
       )
   })
 }
