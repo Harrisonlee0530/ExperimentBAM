@@ -1,24 +1,29 @@
 dashboardUI <- function() {
-  fluidPage(
-    sidebarLayout(
-      sidebarPanel(
-        selectInput("species", "Species:",
-                    choices = unique(raster_meta$species))
-        
-        uiOutput("region_ui")
-        
-        sliderInput("year", "Year:",
-                    min = min(raster_meta$year),
-                    max = max(raster_meta$year),
-                    value = min(raster_meta$year),
-                    step = 1,
-                    sep = "")
-      ),
+  
+  bslib::page_sidebar(
+    
+    title = "Species Distribution",
+    
+    sidebar = bslib::sidebar(
+      width = 300,
+      open = "open",
       
-      mainPanel(
-        h4(textOutput("year_text")),
-        leafletOutput("map", height = 600)
+      uiOutput("species_ui"),
+      uiOutput("region_ui"),
+      
+      sliderInput(
+        "year", "Year:",
+        min = min(raster_meta$year),
+        max = max(raster_meta$year),
+        value = min(raster_meta$year),
+        step = 5,
+        sep = ""
       )
+    ),
+    
+    bslib::card(
+      full_screen = TRUE,
+      leafletOutput("map", height = 600)
     )
   )
 }

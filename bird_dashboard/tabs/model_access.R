@@ -1,8 +1,7 @@
 modelAccessUI <- function() {
-  tabItem(
-    tabName = "model_access",
+  fluidPage(
     h2("Model Access"),
-    p("Provide instructions on how to access or use the model."),
-    p("Include links, APIs, or download instructions.")
+    p("Information about accessing prediction models."),
+    p("API endpoints, downloads, or documentation can go here.")
   )
 }
