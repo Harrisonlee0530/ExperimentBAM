@@ -21,9 +21,11 @@ dashboardUI <- function() {
       )
     ),
     
+    uiOutput("species_info_card"),
+    
     bslib::card(
       full_screen = TRUE,
-      leafletOutput("map", height = 600)
+      leafletOutput("map", height = 600),
     )
   )
 }
